@@ -1,4 +1,4 @@
-package com.uemura.ufood.domains;
+package com.uemura.ufood.domains.Entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -16,7 +16,9 @@ public class UsuarioEntity implements Serializable {
     private String sobrenome;
     @NotEmpty
     private String usuario;
-    @ManyToOne
+    @NotEmpty
+    private String senha;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idendereco")
     private EnderecoEntity endereco;
 
@@ -53,6 +55,15 @@ public class UsuarioEntity implements Serializable {
 
     public UsuarioEntity setUsuario(String usuario) {
         this.usuario = usuario;
+        return this;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public UsuarioEntity setSenha(String senha) {
+        this.senha = senha;
         return this;
     }
 

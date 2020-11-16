@@ -1,6 +1,6 @@
 package com.uemura.ufood.services;
 
-import com.uemura.ufood.domains.CidadeEntity;
+import com.uemura.ufood.domains.Entities.CidadeEntity;
 import com.uemura.ufood.repositories.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

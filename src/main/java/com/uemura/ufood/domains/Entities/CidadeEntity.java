@@ -1,4 +1,4 @@
-package com.uemura.ufood.domains;
+package com.uemura.ufood.domains.Entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
