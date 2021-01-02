@@ -13,7 +13,8 @@ public class EnderecoEntity {
     private String rua;
     private String bairro;
     private String numero;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idcidade")
     private CidadeEntity cidade;
 

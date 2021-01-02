@@ -14,7 +14,7 @@ public class CidadeEntity implements Serializable {
     private String nome;
     private String siglaEstado;
 
-    @OneToMany(mappedBy = "cidade")
+    @OneToMany(mappedBy = "cidade", fetch = FetchType.LAZY)
     private List<EnderecoEntity> enderecoEntities = new ArrayList();
 
     public CidadeEntity() {

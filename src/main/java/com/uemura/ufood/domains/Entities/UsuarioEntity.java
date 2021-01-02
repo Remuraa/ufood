@@ -18,7 +18,7 @@ public class UsuarioEntity implements Serializable {
     private String usuario;
     @NotEmpty
     private String senha;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "idendereco")
     private EnderecoEntity endereco;
 

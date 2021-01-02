@@ -18,6 +18,9 @@ public class UsuarioController {
 
     @GetMapping("/login")
     public ResponseEntity login(@RequestParam(value = "loginDto") LoginDto loginDto) {
-        return ResponseEntity.ok(service.login(loginDto));
+        if(service.login(loginDto)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }
