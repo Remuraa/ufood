@@ -8,10 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
+
+import static org.mockito.Mockito.when;
 
 public class UsuarioServiceTest {
     @InjectMocks
@@ -31,7 +32,7 @@ public class UsuarioServiceTest {
         LoginDto loginDto = new LoginDto().setLogin("Renan").setSenha("123");
         UsuarioEntity usuarioEntity = new UsuarioEntity().setId(1L);
 
-        Mockito.doReturn(Optional.of(usuarioEntity)).when(repository.findByUsuarioAndSenha(loginDto.getLogin(), loginDto.getSenha()));
+        when(repository.findByUsuarioAndSenha(loginDto.getLogin(), loginDto.getSenha())).thenReturn(Optional.of(usuarioEntity));
 
         Boolean result = service.login(loginDto);
 
@@ -42,7 +43,7 @@ public class UsuarioServiceTest {
     public void loginFailTest(){
         LoginDto loginDto = new LoginDto().setLogin("Renan").setSenha("123");
 
-        Mockito.doReturn(Optional.empty()).when(repository.findByUsuarioAndSenha(loginDto.getLogin(), loginDto.getSenha()));
+        when(repository.findByUsuarioAndSenha(loginDto.getLogin(), loginDto.getSenha())).thenReturn(Optional.empty());
 
         Boolean result = service.login(loginDto);
 

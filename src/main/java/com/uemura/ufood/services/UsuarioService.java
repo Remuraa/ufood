@@ -4,6 +4,7 @@ import com.uemura.ufood.domains.Dto.LoginDto;
 import com.uemura.ufood.domains.Entities.UsuarioEntity;
 import com.uemura.ufood.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,20 +21,19 @@ public class UsuarioService {
     @Autowired
     EnderecoService enderecoService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Transactional
     public UsuarioEntity salvar(UsuarioEntity usuario) {
         cidadeService.salvar(usuario.getEndereco().getCidade());
-        usuario.setSenha(bCryptPasswordEncoder.encode(usuario.getSenha()));
+        usuario.setSenha(bCryptPasswordEncoder().encode(usuario.getSenha()));
         return repository.save(usuario);
     }
 
     public boolean login(LoginDto loginDto) {
-        if (repository.findByUsuarioAndSenha(loginDto.getLogin(), loginDto.getSenha()).isPresent()){
-            return true;
-        }
-        return false;
+       return repository.findByUsuarioAndSenha(loginDto.getLogin(), loginDto.getSenha()).isPresent();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
