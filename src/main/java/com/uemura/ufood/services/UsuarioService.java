@@ -1,8 +1,11 @@
 package com.uemura.ufood.services;
 
 import com.uemura.ufood.domains.Dto.LoginDto;
+import com.uemura.ufood.domains.Dto.UsuarioDto;
 import com.uemura.ufood.domains.Entities.UsuarioEntity;
+import com.uemura.ufood.exceptions.ValidacaoException;
 import com.uemura.ufood.repositories.UsuarioRepository;
+import com.uemura.ufood.util.convertor.UsuarioConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,8 +21,15 @@ public class UsuarioService {
     @Autowired
     CidadeService cidadeService;
 
-    @Autowired
-    EnderecoService enderecoService;
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
+    public Long salvar(UsuarioDto usuarioDto) {
+        return salvar(UsuarioConvertor.converter(usuarioDto)).getId();
+    }
 
     @Transactional
     public UsuarioEntity salvar(UsuarioEntity usuario) {
@@ -29,11 +39,9 @@ public class UsuarioService {
     }
 
     public boolean login(LoginDto loginDto) {
-       return repository.findByUsuarioAndSenha(loginDto.getLogin(), loginDto.getSenha()).isPresent();
+        UsuarioEntity usuario = repository.findByUsuario(loginDto.getLogin())
+                .orElseThrow(() -> new  ValidacaoException("Login invalido"));
+        return bCryptPasswordEncoder().matches(loginDto.getSenha(), usuario.getSenha());
     }
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

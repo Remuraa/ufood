@@ -14,7 +14,7 @@ public class EnderecoEntity {
     private String bairro;
     private String numero;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "idcidade")
     private CidadeEntity cidade;
 
